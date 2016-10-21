@@ -1,0 +1,25 @@
+{
+	"name": "prom-ozz-zwave",
+	"version": "1.0.0",
+	"description": "A Prometheus metrics server for Ozz zwave logs.",
+	"main": "prom-ozz-zwave.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://archive.eldergods.com/prom-ozz-zwave"
+	},
+	"keywords": [
+		"prometheus",
+		"metrics",
+		"logging",
+		"zwave"
+	],
+	"author": "rektide de la faye",
+	"license": "X11",
+	"dependencies": {
+		"es6-promisify": "^5.0.0",
+		"ndjson": "^1.4.3"
+	}
+}
