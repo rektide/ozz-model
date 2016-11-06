@@ -20,6 +20,10 @@
 	"license": "X11",
 	"dependencies": {
 		"es6-promisify": "^5.0.0",
-		"ndjson": "^1.4.3"
+		"koa": "^1.2.4",
+		"koa-compress": "^1.0.9",
+		"memoizee": "^0.4.1",
+		"ndjson": "^1.4.3",
+		"prom-pb-client": "^1.0.8"
 	}
 }

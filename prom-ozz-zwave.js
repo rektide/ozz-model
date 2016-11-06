@@ -4,10 +4,14 @@
 var
   _promisify= require("es6-promisify"),
   fs= require( "fs"),
-  ndjson= require("ndjson")
+  metrics= require( "prom-pb-client"),
+  ndjson= require("ndjson"),
+  server= require( "prom-pb-client/server")
 
 var
   readFile= _promisify( fs.readFile)
+
+var family= new metrics.MetricFamily( "temper_temp_c", "temperature sensor degress celsius", metrics.MetricType.GAUGE, [])
 
 function transformElement( el, prefix){
 	if( el.eventType!== "changed"&& el.eventCategory!== "value"){
