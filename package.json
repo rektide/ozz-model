@@ -1,29 +1,27 @@
 {
-	"name": "prom-ozz-zwave",
+	"name": "ozz-model",
 	"version": "1.0.0",
-	"description": "A Prometheus metrics server for Ozz zwave logs.",
-	"main": "prom-ozz-zwave.js",
+	"description": "A realized object model from an Ozzwave event-source.",
+	"main": "ozz-model.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"echoes": "echo $(pkgdirname)",
+		"files": "find $(pwd) \\( -path '*node_modules' -o -path '*.git' \\) -prune -o -type f | gitignoreit",
+		"pwd": "echo $(pwd)"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://archive.eldergods.com/prom-ozz-zwave"
+		"url": "https://archive.eldergods.com/ozz-model"
 	},
 	"keywords": [
-		"prometheus",
-		"metrics",
-		"logging",
 		"zwave"
 	],
 	"author": "rektide de la faye",
 	"license": "X11",
 	"dependencies": {
 		"es6-promisify": "^5.0.0",
-		"koa": "^1.2.4",
-		"koa-compress": "^1.0.9",
+		"listener-binder": "^1.0.0",
 		"memoizee": "^0.4.1",
-		"ndjson": "^1.4.3",
-		"prom-pb-client": "^1.0.8"
+		"ndjson": "^1.4.3"
 	}
 }
