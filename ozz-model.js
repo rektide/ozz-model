@@ -10,24 +10,40 @@ var
 class OzzModel{
 
 	constructor( ozzwave, options){
+		this.target= ozzwave
 		
 	}
 
 	//var node= []
 	//var value= {}
 	//var name= {}
-	//var klass= {}
 
 	/*
 	 *  Addressing
 	 *  `classId` specifies/targets a kind of device (ex: light) and `index` specifies/targets something specific on that given device
-	 *  `nodeId` specifies an individual device on your network (ex: dimmers) and `instance` specifies the which copy of the submodule you want on the d
-	 *ice (ex: a double switch, or a sockets on a powerstrip)
+	 *  `nodeId` specifies an individual device on your network (ex: dimmers) and `instance` specifies the which copy of the submodule
+	 *  you want on the device (ex: a double switch, or a sockets on a powerstrip)
 	 *
-	 *  Order of addresses:
+	 *  Order of addresses in compact node-openzwave-shared format:
 	 *  [nodeId]-[classId]-[instance]-[index]
 	 */
-	
+	lookup( nodeId, instanceId, indexId){
+		var result= []
+		if( nodeId){
+			var node= this.node[nodeId]
+			result.unshift(node)
+			if( instanceId){
+				var instance= node.instance[instanceId]
+				result.unshift(instance)
+				if(indexId){
+					var index= instance.index[indexId]
+					result.unshift(index)
+				}
+			}
+		}
+		return result
+	}
+
 	/**
 	 * Node becomes "available" once basic facts are known
 	 * @example
@@ -37,7 +53,7 @@ class OzzModel{
 	onnodeavailable( o){
 		this.nodes[ o.nodeId]= o
 		if( o.name){
-			name[ o.name]= o
+			this.name[ o.name]= o
 		}
 		o.instance= []
 	}
@@ -67,22 +83,6 @@ class OzzModel{
 		value[ o.valueId]= o
 	}
 	
-	lookup( nodeId, instanceId, indexId){
-		var result= []
-		if( nodeId){
-			var node= this.node[nodeId]
-			result.unshift(node)
-			if( instanceId){
-				var instance= node.instance[instanceId]
-				result.unshift(instance)
-				if(indexId){
-					var index= instance.index[indexId]
-					result.unshift(index)
-				}
-			}
-		}
-		return result
-	}
 }
 
 function main( options){
