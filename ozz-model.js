@@ -9,9 +9,11 @@ var
 
 class OzzModel{
 
+	static LookupFields(){ return [ "node", "class", "instance", "index"] }
+
 	constructor( ozzwave, options){
 		this.target= ozzwave
-		
+		this.name= {}
 	}
 
 	//var node= []
@@ -27,21 +29,17 @@ class OzzModel{
 	 *  Order of addresses in compact node-openzwave-shared format:
 	 *  [nodeId]-[classId]-[instance]-[index]
 	 */
-	lookup( nodeId, instanceId, indexId){
-		var result= []
-		if( nodeId){
-			var node= this.node[nodeId]
-			result.unshift(node)
-			if( instanceId){
-				var instance= node.instance[instanceId]
-				result.unshift(instance)
-				if(indexId){
-					var index= instance.index[indexId]
-					result.unshift(index)
-				}
-			}
-		}
-		return result
+	lookup( nodeId, classId, instanceId, indexId){
+		var
+		  fields= OzzModel.LookupFields(),
+		  len= fields.length,
+		  cursor= this
+		fields.forEach( function( field, i){
+			cursor= cursor? cursor[ field]
+			cursor= cursor? cursor[ arguments[ i]]
+			fields[ len- i]= cursor
+		})
+		return fields
 	}
 
 	/**
@@ -62,9 +60,9 @@ class OzzModel{
 	 * Property is "added" to a node
 	 * @example
 	 * {"eventType":"added","eventCategory":"value","timestamp":1475823000908,"nodeId":3,"classId":37,"valueId":"3-37-1-0","type":"bool","genre":"user",
-	 *"instance":1,"index":0,"label":"Switch","units":"","help":"","readOnly":false,"writeOnly":false,"isPolled":false,"min":0,"max":0,"value":false}
+	 * "instance":1,"index":0,"label":"Switch","units":"","help":"","readOnly":false,"writeOnly":false,"isPolled":false,"min":0,"max":0,"value":false}
 	 * {"eventType":"added","eventCategory":"value","timestamp":1475823014264,"nodeId":3,"classId":50,"valueId":"3-50-1-0","type":"decimal","genre":"user",
-	 *"instance":1,"index":0,"label":"Unknown","units":"","help":"","readOnly":true,"writeOnly":false,"isPolled":false,"min":0,"max":0,"value":"0.0"}
+	 * "instance":1,"index":0,"label":"Unknown","units":"","help":"","readOnly":true,"writeOnly":false,"isPolled":false,"min":0,"max":0,"value":"0.0"}
 	 */
 	onnodeadded( o){
 		var node= this.nodes[ o.nodeId]
@@ -76,7 +74,7 @@ class OzzModel{
 	 * Property value "changed" on a node
 	 * @example
 	 * {"eventType":"changed","eventCategory":"value","timestamp":1477028524203,"nodeId":5,"classId":50,"valueId":"5-50-3-8","type":"decimal","genre":"user",
-	 *"instance":3,"index":8,"label":"Power","units":"W","help":"","readOnly":true,"writeOnly":false,"isPolled":false,"min":0,"max":0,"value":"19.476"}
+	 * "instance":3,"index":8,"label":"Power","units":"W","help":"","readOnly":true,"writeOnly":false,"isPolled":false,"min":0,"max":0,"value":"19.476"}
 	 */
 	onvaluechanged( o){
 		this.node[ o.nodeId].instance[ o.instance].index[ o.index]= o
